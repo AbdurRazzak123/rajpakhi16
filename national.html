@@ -1356,103 +1356,7 @@ section.news-grid > article:nth-child(6) .news-image img {
   <div style="text-align:center;padding:30px;color:#888;grid-column:1/-1;">খবর লোড হচ্ছে...</div>
 </section>
 
-<script>
-const liveDate=document.getElementById('live-date');
-if(liveDate){
-  const now=new Date();
-  liveDate.textContent=new Intl.DateTimeFormat('bn-BD',{timeZone:'Asia/Dhaka',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now);
-}
-const DATA_URL='news-data.json';
-const CATEGORY_KEY='national';
-const CATEGORY_LABEL='জাতীয়';
-const CATEGORY_VALUES=['জাতীয়', 'জাতীয়', 'national'];
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const norm=s=>String(s??'').toLowerCase().trim();
-const normId=s=>{const x=String(s??'').trim();return /^\d+(?:\.0+)?$/.test(x)?String(parseInt(x,10)):x;};
-function parseSheet(text){
-  const a=text.indexOf('{'),b=text.lastIndexOf('}')+1;
-  const rows=JSON.parse(text.slice(a,b)).table.rows||[];
-  return rows.map((r,i)=>{const c=r.c||[],v=n=>c[n]&&c[n].v!=null?String(c[n].v):'';return{id:normId(v(0)||(i+1)+''),category:v(1),title:v(2),summary:v(3),image:v(4),date:v(5),image2:v(6),image3:v(7),video:v(8)}}).filter(n=>n.title||n.summary);
-}
-function load(){
-  return fetch(DATA_URL,{cache:'default'}).then(r=>{
-    if(!r.ok)throw new Error('Data HTTP '+r.status);
-    return r.text();
-  }).then(parseSheet);
-}
-const IMAGE_REPO=new URL('./',document.baseURI).href;
-function imageUrl(url){
-  const raw=String(url||'').trim(); if(!raw)return '';
-  const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=|thumbnail\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);
-  if(m)return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w2000`;
-  if(/^https?:\/\//i.test(raw))return raw;
-  const path=raw.replace(/^\.\//,'').replace(/^\/+/, '');
-  try{return new URL(path, document.baseURI).href;}catch(e){return path;}
-}
-function imageFallback(img){
-  if(img.dataset.fallbackDone==='1') return;
-  img.dataset.fallbackDone='1';
-  const raw=String(img.dataset.imageSource||'').trim().replace(/^\.\//,'').replace(/^\/+/, '');
-  if(/^(?:assets\/news|news-images|images\/news)\//i.test(raw)){
-    try{img.src=new URL(raw, document.baseURI).href; return;}catch(e){}
-  }
-  img.removeAttribute('src'); img.classList.add('image-load-failed');
-}
-function imageFallback(img){
-  if(img.dataset.fallbackDone==='1')return;
-  img.dataset.fallbackDone='1';
-  const original=img.dataset.imageSource || img.getAttribute('src') || '';
-  // First fallback: repository RAW path, independent of the current Pages URL.
-  try{
-    const raw=String(original).trim();
-    const clean=raw.replace(/^\.\//,'').replace(/^\/+/, '');
-    if(/^(?:assets\/news|news-images|images\/news)\//i.test(clean)){
-      img.src=IMAGE_REPO + clean.split('/').map(encodeURIComponent).join('/');
-      return;
-    }
-  }catch(e){}
-  // Second fallback: if the source is a Drive link, retry as a thumbnail.
-  try{
-    const m=String(original).match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=|thumbnail\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);
-    if(m){img.src=`https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;return;}
-  }catch(e){}
-  img.style.display='none';
-}
-function isCategory(n){const c=norm(n.category);return CATEGORY_VALUES.some(v=>norm(v)===c);}
-function latest(list){return [...list].reverse();}
-function articleUrl(id){return 'details.html#'+encodeURIComponent(normId(id));}
-function feature(n,full=false){
-  if(!n)return `<div class="vertical-news-block"><div class="news-text-bottom"><h3>এই ক্যাটাগরিতে এখন কোনো সংবাদ নেই।</h3></div></div>`;
-  const img=n.image?`<div class="news-image-top"><img loading="eager" decoding="async" fetchpriority="high" src="${esc(imageUrl(n.image))}" data-image-source="${esc(n.image)}" alt="${esc(n.title)}" onerror="imageFallback(this)"></div>`:'';
-  const body=String(n.summary||'').trim();
-  const paragraphs=full && body ? body.split(/\n\s*\n|\n/).filter(Boolean).map(x=>`<p>${esc(x.trim())}</p>`).join('') : (body?`<p class="home-summary">${esc(body.slice(0,420))}${body.length>420?'…':''}</p>`:'');
-  return `<div class="vertical-news-block" id="news-${esc(normId(n.id))}">${img}<div class="news-text-bottom"><span class="category-tag">${esc(CATEGORY_LABEL)}</span><div class="breaking-news-date">${esc(n.date)}</div><h3>${esc(n.title)}</h3><div class="category-main-body">${paragraphs}</div>${!full?`<a class="read-more-btn" href="details.html#${encodeURIComponent(normId(n.id))}">আরো পড়ুন</a>`:''}</div></div>`;
-}
-function sideItem(n){
-  const img=n.image?`<img loading="eager" decoding="async" src="${esc(imageUrl(n.image))}" data-image-source="${esc(n.image)}" alt="${esc(n.title)}" onerror="imageFallback(this)">`:'';
-  return `<article class="latest-item category-latest-item"><a href="${articleUrl(n.id)}" data-news-id="${esc(normId(n.id))}"><span class="category-latest-thumb">${img}</span><span class="category-latest-title">${esc(n.title)}</span></a></article>`;
-}
-function sixCard(n,label){
-  const img=n.image?`<div class="news-image"><img loading="eager" decoding="async" src="${esc(imageUrl(n.image))}" data-image-source="${esc(n.image)}" alt="${esc(n.title)}" onerror="imageFallback(this)"></div>`:`<div class="news-image"></div>`;
-  return `<article class="news-card"><a href="${articleUrl(n.id)}" class="category-card-link" data-news-id="${esc(normId(n.id))}">${img}<div class="news-card-content"><div class="category">${esc(label)}</div><h3>${esc(n.title)}</h3></div></a></article>`;
-}
-const CATEGORY_MAP={
-  national:['জাতীয়','জাতীয়','national'], politics:['রাজনীতি','politics'], international:['আন্তর্জাতিক','international'], economy:['অর্থনীতি','economy'], sports:['খেলাধুলা','sports','sport'], entertainment:['বিনোদন','entertainment'], technology:['প্রযুক্তি','technology','tech']
-};
-const LABELS={national:'জাতীয়',politics:'রাজনীতি',international:'আন্তর্জাতিক',economy:'অর্থনীতি',sports:'খেলাধুলা',entertainment:'বিনোদন',technology:'প্রযুক্তি'};
-load().then(list=>{
-  const ordered=latest(list);
-  const categoryNews=ordered.filter(isCategory);
-  const selectedId=normId(decodeURIComponent((location.hash||'').replace(/^#/,'')));
-  const selected=selectedId ? categoryNews.find(n=>normId(n.id)===selectedId) : null;
-  const newest=selected || categoryNews[0];
-  const c=document.getElementById('news-container'); if(c)c.innerHTML=feature(newest, !!selected);
-  const ticker=document.querySelector('.breaking .ticker-track'); if(ticker)ticker.textContent=newest?newest.title:'এই ক্যাটাগরিতে কোনো সংবাদ নেই';
-  const lc=document.getElementById('latest-news-container'); if(lc)lc.innerHTML=categoryNews.slice(0,5).map(sideItem).join('')||'<div style="text-align:center;padding:20px;color:#888;">কোনো সংবাদ নেই।</div>';
-  const six=categoryNews.slice(0,6).map(n=>[n,CATEGORY_LABEL]);
-  const grid=document.getElementById('category-six-grid'); if(grid)grid.innerHTML=six.map(([n,l])=>sixCard(n,l)).join('')||'<div style="text-align:center;padding:30px;color:#888;grid-column:1/-1;">কোনো সংবাদ নেই।</div>';
-}).catch(e=>{console.error(e);const c=document.getElementById('news-container');if(c)c.innerHTML='<div style="text-align:center;padding:40px;color:#888;">খবর লোড করা যাচ্ছে না।</div>';});
-</script>
+<script>(function(){const d=document.getElementById('live-date');if(d)d.textContent=new Intl.DateTimeFormat('bn-BD',{timeZone:'Asia/Dhaka',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date());})();</script>
 
 <style id="category-index-dynamic-six-fix">
 /* Category pages intentionally inherit the complete Index CSS. Only the requested sidebar/card presentation is added. */
@@ -1479,4 +1383,5 @@ load().then(list=>{
 <script src="ads-loader.js?v=20260907-ads-v26-sequential-final"></script>
 <script src="news-media.js"></script>
 <script src="news-reader.js"></script>
-\n<style id="universal-image-engine">\n.news-image img,.news-image-top img,.news-image-wrap img,.category-latest-thumb img,.news-card img{background:#fff;display:block!important;width:100%;height:auto;object-fit:contain;}\n.image-load-failed{visibility:hidden!important;}\n</style>\n<script id="universal-image-engine-js">\n(function(){\n function fix(){document.querySelectorAll('img[data-image-source]').forEach(function(img){img.loading='eager';img.decoding='async';img.fetchPriority='high';if(!img.complete)img.addEventListener('error',function(){if(typeof imageFallback==='function')imageFallback(img)},{once:true});});}\n if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix);else fix();\n})();\n</script>\n</body>
+\n<style id="universal-image-engine">\n.news-image img,.news-image-top img,.news-image-wrap img,.category-latest-thumb img,.news-card img{background:#fff;display:block!important;width:100%;height:auto;object-fit:contain;}\n.image-load-failed{visibility:hidden!important;}\n</style>\n<script id="universal-image-engine-js">\n(function(){\n function fix(){document.querySelectorAll('img[data-image-source]').forEach(function(img){img.loading='eager';img.decoding='async';img.fetchPriority='high';if(!img.complete)img.addEventListener('error',function(){if(typeof imageFallback==='function')imageFallback(img)},{once:true});});}\n if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fix);else fix();\n})();\n</script>\n<script src="universal-news-fix.js?v=20260912-final"></script>
+</body>
