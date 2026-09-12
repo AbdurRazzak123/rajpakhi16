@@ -12,6 +12,7 @@ BASE = 'https://abdurrazzak123.github.io/banglanews.2026/'
 ROOT = Path(__file__).resolve().parent
 NEWS = ROOT / 'news'
 NEWS.mkdir(exist_ok=True)
+BUILD_NEWS = ROOT / '.news-build'
 TZ = ZoneInfo('Asia/Dhaka')
 
 
@@ -188,8 +189,13 @@ if not articles:
 CSS = ''  # Detail CSS is served from detail.css
 
 
-for p in NEWS.glob('*.html'):
-    p.unlink()
+# Build article pages in a staging directory first. The live news/ directory is
+# never emptied until every page has been generated and validated. This prevents
+# a temporary Google/Drive failure from leaving the website with broken pages.
+if BUILD_NEWS.exists():
+    import shutil
+    shutil.rmtree(BUILD_NEWS)
+BUILD_NEWS.mkdir(parents=True, exist_ok=True)
 
 for a in articles:
     sid=slug_id(a['id']); page=BASE+'news/'+urllib.parse.quote(sid)+'.html'
@@ -218,7 +224,38 @@ for a in articles:
     nav=[('হোম','../home.html'),('জাতীয়','../national.html'),('রাজনীতি','../politics.html'),('আন্তর্জাতিক','../international.html'),('অর্থনীতি','../economy.html'),('খেলাধুলা','../sports.html'),('বিনোদন','../entertainment.html'),('প্রযুক্তি','../technology.html'),('আরও','../more.html')]
     nav_html=''.join('<a href="%s">%s</a>'%(u,n) for n,u in nav)
     html="""<!doctype html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>%s | বাংলা সংবাদ</title><meta name="description" content="%s"><meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="%s"><meta property="og:type" content="article"><meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:url" content="%s"><meta property="og:site_name" content="বাংলা সংবাদ">%s<meta name="twitter:card" content="summary_large_image"><link rel="stylesheet" href="../detail.css?v=20260910-clean"><link rel="stylesheet" href="../ads.css?v=20260910-clean"><script type="application/ld+json">%s</script></head><body><div class="ad-slot top sheet-ad-slot detail-ad" data-ad-slot="top" aria-label="বিজ্ঞাপন"></div><div class="top-bar">বাংলা সংবাদ — সত্য ও নির্ভরযোগ্য খবর</div><header class="site-header"><div class="header-inner"><div class="logo"><a href="../home.html"><img src="../logo.png" alt="বাংলা সংবাদ লোগো" class="logo-image"></a></div><div id="live-date">%s</div></div></header><nav class="nav"><div class="nav-inner">%s</div></nav><main class="detail-wrap"><div class="detail-main"><div class="detail-breadcrumb">%s</div><div class="detail-category">%s</div><h1 class="detail-title">%s</h1><div class="detail-meta">%s &nbsp; • &nbsp; প্রতিবেদক: বাংলা সংবাদ ডেস্ক</div><div class="ad-slot middle-top sheet-ad-slot detail-ad" data-ad-slot="middle-top" aria-label="বিজ্ঞাপন"></div><article class="detail-article">%s<div class="detail-content">%s</div>%s%s</article><div class="ad-slot middle-bottom sheet-ad-slot detail-ad" data-ad-slot="middle-bottom" aria-label="বিজ্ঞাপন"></div>%s<div class="ad-slot bottom sheet-ad-slot detail-ad detail-bottom-ad" data-ad-slot="bottom" aria-label="বিজ্ঞাপন"></div></div></main><footer class="site-footer"><div class="links"><a href="../home.html">হোম</a><a href="../about.html">আমাদের সম্পর্কে</a><a href="../contact.html">যোগাযোগ</a><a href="../privacy.html">গোপনীয়তা নীতি</a></div><p>© ২০২৬ বাংলা সংবাদ — সর্বস্বত্ব সংরক্ষিত</p></footer><script src="../ads-loader.js?v=20260910-clean"></script></body></html>"""%(escape(a['title']),escape(description,quote=True),escape(page,quote=True),escape(a['title'],quote=True),escape(description,quote=True),escape(page,quote=True),og_image,json.dumps(schema,ensure_ascii=False,separators=(',',':')),escape(a['date']),nav_html,escape(a['category'] or 'সংবাদ'),escape(a['category'] or 'সংবাদ'),escape(a['title']),escape(a['date']),hero,content,extra,video,latest_html)
-    (NEWS/(sid+'.html')).write_text(html,encoding='utf-8')
+    (BUILD_NEWS/(sid+'.html')).write_text(html,encoding='utf-8')
+
+# Strong validation: every article must have a real ID, title and a non-empty HTML file.
+# If validation fails, keep the previous live news pages untouched and fail the action.
+expected = {slug_id(a['id']) for a in articles}
+actual = {p.stem for p in BUILD_NEWS.glob('*.html')}
+if expected != actual:
+    missing = sorted(expected - actual)
+    extra = sorted(actual - expected)
+    raise RuntimeError(f'Article page validation failed. Missing={missing[:10]} Extra={extra[:10]}')
+for page_file in BUILD_NEWS.glob('*.html'):
+    body = page_file.read_text(encoding='utf-8', errors='strict')
+    if len(body) < 1000 or '<h1' not in body or '<article' not in body:
+        raise RuntimeError(f'Article page validation failed: {page_file}')
+
+# Atomic-ish directory replacement after successful validation.
+import shutil
+LIVE_BACKUP = ROOT / '.news-backup'
+if LIVE_BACKUP.exists():
+    shutil.rmtree(LIVE_BACKUP)
+if NEWS.exists():
+    NEWS.rename(LIVE_BACKUP)
+try:
+    BUILD_NEWS.rename(NEWS)
+    shutil.rmtree(LIVE_BACKUP, ignore_errors=True)
+except Exception:
+    if NEWS.exists():
+        shutil.rmtree(NEWS)
+    if LIVE_BACKUP.exists():
+        LIVE_BACKUP.rename(NEWS)
+    raise
+
 
 now = datetime.now(TZ)
 static = ['', 'home.html', 'national.html', 'politics.html', 'international.html', 'economy.html', 'sports.html', 'entertainment.html', 'technology.html', 'more.html', 'about.html', 'contact.html', 'privacy.html', 'disclaimer.html', 'advertise.html']
