@@ -17,7 +17,7 @@
 <meta property="og:description" content="বাংলা সংবাদের সর্বশেষ গুরুত্বপূর্ণ সংবাদ, পূর্ণ বিস্তারিত এবং বিভিন্ন ক্যাটাগরির আপডেট একসাথে পড়ুন।">
 <meta property="og:type" content="website">
 <meta property="og:url" content="./home.html">
-<meta property="og:image" content="./logo.png">
+<meta property="og:image" content="./logo.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="প্রধান সংবাদ | বাংলা সংবাদ">
 <meta name="twitter:description" content="বাংলা সংবাদের সর্বশেষ গুরুত্বপূর্ণ সংবাদ, পূর্ণ বিস্তারিত এবং বিভিন্ন ক্যাটাগরির আপডেট একসাথে পড়ুন।">
@@ -438,7 +438,7 @@ main.container {
   #latest-news-container{max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 }
 
-/* ===== Custom Logo Slot (replace only logo.png) ===== */
+/* ===== Custom Logo Slot (replace only logo.webp) ===== */
 .logo{display:flex;align-items:center;min-width:0}
 .logo-image{width:min(92vw,420px);height:auto;max-height:140px;object-fit:contain;display:block;object-position:left center}
 .logo-fallback{display:none}
@@ -522,7 +522,7 @@ main.container {
   "@context":"https://schema.org",
   "@graph":[
     {"@type":"WebSite","name":"বাংলা সংবাদ","description":"বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ","inLanguage":"bn","url":"./"},
-    {"@type":"Organization","name":"বাংলা সংবাদ","url":"./","logo":{"@type":"ImageObject","url":"./logo.png"}}
+    {"@type":"Organization","name":"বাংলা সংবাদ","url":"./","logo":{"@type":"ImageObject","url":"./logo.webp"}}
   ]
 }
 </script>
@@ -725,7 +725,7 @@ main.container {
 
 
 <style id="FINAL-TWO-FIXES-ONLY">
-/* FINAL FIX 1: logo uses root-level logo.png for GitHub Pages reliability */
+/* FINAL FIX 1: logo uses root-level logo.webp for GitHub Pages reliability */
 .site-header .logo-image, .brand-header .site-brand-logo { display:block!important; object-fit:contain!important; }
 /* FINAL FIX 2: index main image stays above category/date/headline; metadata never overlays image */
 .vertical-news-block { display:flex!important; flex-direction:column!important; position:relative!important; }
@@ -1306,7 +1306,7 @@ section.news-grid > article:nth-child(6) .news-image img {
 <header class="site-header">
   <div class="header-inner">
     <div class="logo">
-      <img src="logo.png" alt="বাংলা সংবাদ লোগো" class="logo-image">
+      <img src="logo.webp" alt="বাংলা সংবাদ লোগো" class="logo-image">
       <div class="logo-fallback"><h1>বাংলা সংবাদ</h1><p>সর্বশেষ সংবাদ সবার আগে</p></div>
     </div>
     <div id="live-date">তারিখ</div>
@@ -1389,7 +1389,8 @@ const norm=s=>String(s??'').toLowerCase().trim();
 const normId=s=>{const x=String(s??'').trim();return /^\d+(?:\.0+)?$/.test(x)?String(parseInt(x,10)):x;};
 function parseSheet(text){const a=text.indexOf('{'),b=text.lastIndexOf('}')+1;const rows=JSON.parse(text.slice(a,b)).table.rows||[];return rows.map((r,i)=>{const c=r.c||[],v=n=>c[n]&&c[n].v!=null?String(c[n].v):'';return{id:normId(v(0)||(i+1)+''),category:v(1),title:v(2),summary:v(3),image:v(4),date:v(5),image2:v(6),image3:v(7),video:v(8)}}).filter(n=>n.title||n.summary);}
 function load(){
-  return fetch(DATA_URL,{cache:'default'}).then(r=>{
+  const CACHE_KEY='bn-news-data-v2';
+  return fetch(DATA_URL+'?v=20260912',{cache:'force-cache'}).then(r=>{
     if(!r.ok)throw new Error('Data HTTP '+r.status);
     return r.text();
   }).then(parseSheet);
@@ -1399,7 +1400,7 @@ function repoInfo(){try{const host=location.hostname||'';if(!/^[^.]+\.github\.io
 function githubImageCandidates(path){
   const clean=cleanImagePath(path);
   if(!/^(?:assets\/news|news-images|images\/news)\//i.test(clean))return [];
-  const enc=clean.split('/').map(encodeURIComponent).join('/');
+  const enc=clean.replace(/\.(?:png|jpe?g)$/i,'.webp').split('/').map(encodeURIComponent).join('/');
   const out=[];
   // 1) Always try the GitHub repository where this page is currently hosted.
   // This makes the same ZIP work after moving the website to a different repo.
@@ -1437,15 +1438,12 @@ function driveImageCandidates(raw){const s=String(raw||'');const m=s.match(/driv
 ];}
 function imageUrl(url){
   const raw=String(url||'').trim();
-  if(!raw)return '';
-  const dc=driveImageCandidates(raw);
-  if(dc.length)return dc[0];
-  if(/^https?:\/\//i.test(raw))return raw;
-  // For repository image paths, use the current GitHub repo first. If the
-  // website is moved to another repo, the same code automatically follows it.
-  const gh=githubImageCandidates(raw);
-  if(gh.length)return gh[0];
-  return cleanImagePath(raw);
+  if(!raw) return '';
+  const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);
+  if(m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
+  // The optimized package stores news images as WebP. Google Sheet data may still contain .jpeg/.jpg/.png.
+  if(/^assets\/news\//i.test(raw)) return raw.replace(/\.(?:jpe?g|png)$/i,'.webp');
+  try { return new URL(raw, document.baseURI).href; } catch(e) { return raw; }
 }
 function imageCandidates(src){
   const raw=String(src||'').trim();

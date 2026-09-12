@@ -1,0 +1,18 @@
+বাংলা সংবাদ — SPEED / ROUTING FINAL AUDIT — 2026-09-12
+
+এই build-এ:
+1. Home/Index/Category pages-এর Card + Latest News -> details.html#ID
+2. details.html#ID -> নির্বাচিত নিউজ Main Container-এ full news
+3. Details-এর Card/Latest News -> category.html#ID
+4. Category page hash ID পেলে সেই category-এর Main Container-এ নির্বাচিত full news
+5. details.html-এ 4 ad slots: top, middle-top, middle-bottom, bottom
+6. Local raster news images বড় ফাইলগুলো WebP-তে compress করা হয়েছে
+7. Main/feature image eager/fetchpriority where appropriate; cards/sidebar lazy-load
+8. news-data.json request-এ Date.now/no-store cache-busting বাদ; fixed version + browser cache
+9. No details.html?id=... routing used. Hash (#ID) is used so no question mark is needed.
+10. JavaScript syntax checked with Node --check for inline scripts in all main pages.
+11. Broken local image references were checked after image optimization.
+12. Source ZIP size was about 31.0 MB; optimized working tree is about 7.4 MB.
+
+নোট:
+GitHub Pages/CDN/network speed cannot be guaranteed to match Prothom Alo exactly. This build removes several avoidable client-side bottlenecks and substantially reduces local image payload, while preserving the Google Sheet/GitHub JSON architecture.

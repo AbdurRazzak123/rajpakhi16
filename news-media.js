@@ -13,12 +13,12 @@
  .home-summary,.news-summary{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:10;overflow:hidden;line-height:1.65}
  @media(max-width:768px){.category-tag{position:static!important}.sheet-media-gallery img,.inline-media img{max-height:360px}}
  `;document.head.appendChild(s)}
- function imageUrl(url){const raw=String(url||'').trim();if(!raw)return '';const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);return m?`https://drive.google.com/thumbnail?id=${m[1]}&sz=w2000`:raw}
- function mediaImg(url,title,n){return url?`<figure class="inline-media"><img loading="lazy" src="${esc(imageUrl(url))}" alt="${esc(title)} - ছবি ${n}" onerror="this.closest('figure').remove()"><figcaption>ছবি ${n}</figcaption></figure>`:''}
- function video(url,title){if(!url)return'';let id=yt(url);if(id)return`<div class="sheet-video"><iframe loading="lazy" src="https://www.youtube.com/embed/${esc(id)}" title="${esc(title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>`;if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(url))return`<div class="sheet-video"><video controls preload="metadata" src="${esc(imageUrl(url))}"></video></div>`;return`<p><a href="${esc(url)}" target="_blank" rel="noopener" class="read-more-btn">▶ ভিডিও দেখুন</a></p>`}
- function detail(n){
-   // Only Image 1 is used. Image 2 and Image 3 are intentionally ignored.
- }
- function run(){styles();fetch(DATA_URL+'?_='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Data HTTP '+r.status);return r.text()}).then(t=>{let list=parse(t),map=new Map(list.map(n=>[n.id,n]));let id=new URLSearchParams(location.search).get('id');if(id&&map.has(id))detail(map.get(id));}).catch(()=>{});}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+ function imageUrl(url){
+  const raw=String(url||'').trim();
+  if(!raw) return '';
+  const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);
+  if(m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
+  // The optimized package stores news images as WebP. Google Sheet data may still contain .jpeg/.jpg/.png.
+  if(/^assets\/news\//i.test(raw)) return raw.replace(/\.(?:jpe?g|png)$/i,'.webp');
+  try { return new URL(raw, document.baseURI).href; } catch(e) { return raw; }
 })();
