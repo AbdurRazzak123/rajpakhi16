@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     
-<link rel="canonical" href="./">
+<link rel="canonical" href="https://abdurrazzak123.github.io/banglanews.2026/">
 <meta name="description" content="বাংলা সংবাদের সর্বশেষ গুরুত্বপূর্ণ সংবাদ, পূর্ণ বিস্তারিত এবং বিভিন্ন ক্যাটাগরির আপডেট একসাথে পড়ুন।">
 <meta name="keywords" content="বাংলা সংবাদ, প্রধান সংবাদ, সর্বশেষ খবর, বাংলাদেশ খবর, জাতীয় খবর">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -16,8 +16,8 @@
 <meta property="og:title" content="প্রধান সংবাদ | বাংলা সংবাদ">
 <meta property="og:description" content="বাংলা সংবাদের সর্বশেষ গুরুত্বপূর্ণ সংবাদ, পূর্ণ বিস্তারিত এবং বিভিন্ন ক্যাটাগরির আপডেট একসাথে পড়ুন।">
 <meta property="og:type" content="website">
-<meta property="og:url" content="./home.html">
-<meta property="og:image" content="./logo.png">
+<meta property="og:url" content="https://abdurrazzak123.github.io/banglanews.2026/home.html">
+<meta property="og:image" content="https://abdurrazzak123.github.io/banglanews.2026/logo.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="প্রধান সংবাদ | বাংলা সংবাদ">
 <meta name="twitter:description" content="বাংলা সংবাদের সর্বশেষ গুরুত্বপূর্ণ সংবাদ, পূর্ণ বিস্তারিত এবং বিভিন্ন ক্যাটাগরির আপডেট একসাথে পড়ুন।">
@@ -521,8 +521,8 @@ main.container {
 {
   "@context":"https://schema.org",
   "@graph":[
-    {"@type":"WebSite","name":"বাংলা সংবাদ","description":"বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ","inLanguage":"bn","url":"./"},
-    {"@type":"Organization","name":"বাংলা সংবাদ","url":"./","logo":{"@type":"ImageObject","url":"./logo.png"}}
+    {"@type":"WebSite","name":"বাংলা সংবাদ","description":"বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ","inLanguage":"bn","url":"https://abdurrazzak123.github.io/banglanews.2026/"},
+    {"@type":"Organization","name":"বাংলা সংবাদ","url":"https://abdurrazzak123.github.io/banglanews.2026/","logo":{"@type":"ImageObject","url":"https://abdurrazzak123.github.io/banglanews.2026/logo.png"}}
   ]
 }
 </script>
@@ -1388,12 +1388,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const norm=s=>String(s??'').toLowerCase().trim();
 const normId=s=>{const x=String(s??'').trim();return /^\d+(?:\.0+)?$/.test(x)?String(parseInt(x,10)):x;};
 function parseSheet(text){const a=text.indexOf('{'),b=text.lastIndexOf('}')+1;const rows=JSON.parse(text.slice(a,b)).table.rows||[];return rows.map((r,i)=>{const c=r.c||[],v=n=>c[n]&&c[n].v!=null?String(c[n].v):'';return{id:normId(v(0)||(i+1)+''),category:v(1),title:v(2),summary:v(3),image:v(4),date:v(5),image2:v(6),image3:v(7),video:v(8)}}).filter(n=>n.title||n.summary);}
-function load(){
-  return fetch(DATA_URL,{cache:'default'}).then(r=>{
-    if(!r.ok)throw new Error('Data HTTP '+r.status);
-    return r.text();
-  }).then(parseSheet);
-}
+function load(){return fetch(DATA_URL+'?_='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Data HTTP '+r.status);return r.text()}).then(parseSheet);}
 function cleanImagePath(path){return String(path||'').trim().replace(/^\.\//,'').replace(/^\/+/, '');}
 function repoInfo(){try{const host=location.hostname||'';if(!/^[^.]+\.github\.io$/i.test(host))return null;const owner=host.split('.')[0];const parts=location.pathname.split('/').filter(Boolean);const repo=parts[0]||'';return owner&&repo?{owner,repo}:null;}catch(e){return null;}}
 function githubImageCandidates(path){
@@ -1431,7 +1426,7 @@ function githubImageCandidates(path){
   return [...new Set(out)];
 }
 function driveImageCandidates(raw){const s=String(raw||'');const m=s.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=|thumbnail\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);if(!m)return [];const id=m[1];return [
-  'https://drive.google.com/thumbnail?id='+id+'&sz=w1000',
+  'https://drive.google.com/thumbnail?id='+id+'&sz=w2000',
   'https://drive.google.com/uc?export=view&id='+id,
   'https://drive.google.com/uc?export=download&id='+id
 ];}
@@ -1473,7 +1468,7 @@ function bnDate(value){
   if(iso){const y=+iso[1],mo=+iso[2],d=+iso[3];if(mo>=1&&mo<=12)return digits(d)+' '+months[mo-1]+' '+digits(y);}
   return digits(raw).replace(/January|জানুয়ারি/gi,'জানুয়ারি').replace(/February/gi,'ফেব্রুয়ারি').replace(/March/gi,'মার্চ').replace(/April/gi,'এপ্রিল').replace(/May/gi,'মে').replace(/June/gi,'জুন').replace(/July/gi,'জুলাই').replace(/August/gi,'আগস্ট').replace(/September/gi,'সেপ্টেম্বর').replace(/October/gi,'অক্টোবর').replace(/November/gi,'নভেম্বর').replace(/December/gi,'ডিসেম্বর');
 }
-function articleUrl(id){return 'details.html#'+encodeURIComponent(normId(id));}
+function articleUrl(id){return 'news/'+encodeURIComponent(normId(id))+'.html';}
 function imgTag(n,cls='news-image-top',loading='eager'){return n.image?`<div class="${cls}"><img loading="${loading}" src="${esc(imageUrl(n.image))}" data-image-source="${esc(n.image)}" alt="${esc(n.title)}" onerror="imageFallback(this)"></div>`:'';}
 function feature(n){if(!n)return '<div class="vertical-news-block"><div class="news-text-bottom"><h3>আপাতত কোনো সংবাদ পাওয়া যায়নি।</h3></div></div>';return `<article class="vertical-news-block" id="news-${esc(normId(n.id))}">${imgTag(n,'news-image-top','eager')}<div class="news-text-bottom"><span class="category-tag">${esc(n.category)}</span><div class="breaking-news-date">${esc(bnDate(n.date))}</div><h1 class="home-feature-title">${esc(n.title)}</h1><div class="home-full-details">${esc(n.summary||'').replace(/\n/g,'<br>')}</div></div></article>`;}
 function sideItem(n){const img=n.image?`<img loading="lazy" src="${esc(imageUrl(n.image))}" data-image-source="${esc(n.image)}" alt="${esc(n.title)}" onerror="imageFallback(this)">`:'';return `<article class="latest-item category-latest-item"><a href="${articleUrl(n.id)}" data-news-id="${esc(normId(n.id))}"><span class="category-latest-thumb">${img}</span><span class="category-latest-title">${esc(n.title)}</span></a></article>`;}

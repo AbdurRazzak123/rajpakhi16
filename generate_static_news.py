@@ -1,4 +1,4 @@
-import json, re, urllib.request, urllib.parse, hashlib, mimetypes, os
+import json, re, urllib.request, urllib.parse, hashlib, mimetypes
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -7,7 +7,7 @@ from html import escape
 
 SHEET_ID = '1gX73WskIs3D-8IcyPJ24NT0xn1KIEJSjMXOF9nCQqTg'
 SHEET_NAME = 'Bangla News'
-BASE = './'
+BASE = 'https://abdurrazzak123.github.io/banglanews.2026/'
 ROOT = Path(__file__).resolve().parent
 NEWS = ROOT / 'news'
 NEWS.mkdir(exist_ok=True)

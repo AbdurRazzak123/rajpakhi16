@@ -1,12 +1,10 @@
-function normId(s){const x=String(s??'').trim();return /^\d+(?:\.0+)?$/.test(x)?String(parseInt(x,10)):x;}
-function articleUrl(id){return 'details.html#'+encodeURIComponent(normId(id));}
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-<link rel="canonical" href="./more.html">
+<link rel="canonical" href="https://abdurrazzak123.github.io/banglanews.2026/more.html">
 <meta name="description" content="বাংলা সংবাদের আরও গুরুত্বপূর্ণ ও সর্বশেষ সংবাদ একসাথে পড়ুন।">
 <meta name="keywords" content="সর্বশেষ সংবাদ, আরও খবর, গুরুত্বপূর্ণ খবর, বাংলা সংবাদ">
 <meta name="robots" content="index, follow, max-image-preview:large">
@@ -15,8 +13,8 @@ function articleUrl(id){return 'details.html#'+encodeURIComponent(normId(id));}
 <meta property="og:title" content="আরও সংবাদ | বাংলা সংবাদ">
 <meta property="og:description" content="বাংলা সংবাদের আরও গুরুত্বপূর্ণ ও সর্বশেষ সংবাদ একসাথে পড়ুন।">
 <meta property="og:type" content="website">
-<meta property="og:url" content="./more.html">
-<meta property="og:image" content="./logo.png">
+<meta property="og:url" content="https://abdurrazzak123.github.io/banglanews.2026/more.html">
+<meta property="og:image" content="https://abdurrazzak123.github.io/banglanews.2026/logo.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="আরও সংবাদ | বাংলা সংবাদ">
 <meta name="twitter:description" content="বাংলা সংবাদের আরও গুরুত্বপূর্ণ ও সর্বশেষ সংবাদ একসাথে পড়ুন।">
@@ -244,7 +242,7 @@ function articleUrl(id){return 'details.html#'+encodeURIComponent(normId(id));}
 </style>
 
 
-<script type="application/ld+json" id="site-seo-schema">{"@context":"https://schema.org","@type":"WebPage","name":"আরও সংবাদ | বাংলা সংবাদ","description":"বাংলা সংবাদের আরও গুরুত্বপূর্ণ ও সর্বশেষ সংবাদ একসাথে পড়ুন।","inLanguage":"bn","url":"./more.html"}</script>
+<script type="application/ld+json" id="site-seo-schema">{"@context":"https://schema.org","@type":"WebPage","name":"আরও সংবাদ | বাংলা সংবাদ","description":"বাংলা সংবাদের আরও গুরুত্বপূর্ণ ও সর্বশেষ সংবাদ একসাথে পড়ুন।","inLanguage":"bn","url":"https://abdurrazzak123.github.io/banglanews.2026/more.html"}</script>
 
 <style id="premium-news-theme-v2">
 /* ===== বাংলা সংবাদ — Premium Theme + Full Image Visibility ===== */
@@ -721,18 +719,13 @@ const DATA_URL='news-data.json';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=s=>String(s??'').toLowerCase().trim();
 function parseSheet(text){const a=text.indexOf('{'),b=text.lastIndexOf('}')+1;const rows=JSON.parse(text.slice(a,b)).table.rows||[];return rows.map((r,i)=>{const c=r.c||[],v=n=>c[n]&&c[n].v!=null?String(c[n].v):'';return{id:v(0)||(i+1)+'',category:v(1),title:v(2),summary:v(3),image:v(4),date:v(5),image2:v(6),image3:v(7),video:v(8)}}).filter(n=>n.title||n.summary);}
-function load(){
-  return fetch(DATA_URL,{cache:'default'}).then(r=>{
-    if(!r.ok)throw new Error('Data HTTP '+r.status);
-    return r.text();
-  }).then(parseSheet);
-}
+function load(){return fetch(DATA_URL+'?_='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Data HTTP '+r.status);return r.text()}).then(parseSheet);}
 
 function imageUrl(url){
   const raw=String(url||'').trim();
   if(!raw) return '';
   const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);
-  if(m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
+  if(m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w2000`;
   try { return new URL(raw, document.baseURI).href; } catch(e) { return raw; }
 }
 
