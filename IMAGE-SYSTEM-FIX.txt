@@ -1,0 +1,7 @@
+IMAGE SYSTEM FINAL FIX
+
+- Category pages use repository-local image paths for assets/news/* and Google Drive fallback.
+- Category and detail images are eager-loaded; no lazy-image placeholder behavior.
+- Details page Sheet columns are corrected: E=Image1, G=Image2, H=Image3, I=Video.
+- Static /news/*.html pages use eager image loading.
+- First-load network time can never literally be zero, but the site no longer intentionally hides images behind lazy loading or removes them on the first fallback failure.

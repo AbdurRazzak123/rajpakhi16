@@ -1,0 +1,8 @@
+এই build-এর মূল নিয়ম:
+1) পুরো repository আপলোড করবে, শুধু root HTML নয়।
+2) news/ folder অবশ্যই থাকবে।
+3) assets/ folder অবশ্যই থাকবে।
+4) GitHub Actions চালু থাকলে Google Sheet sync হলে নতুন ID-এর news/ID.html নিজে তৈরি হবে।
+5) কোনো কারণে কোনো static ID page sync না হলে 404.html fallback user-কে খবর দেখানোর চেষ্টা করবে।
+6) প্রতিটি category page-এর নিচের 6 card এখন সেই page-এর নিজের category-এর 6টি latest news-এ যাবে।
+7) ডান পাশের Latest News প্রতিটি নিজ নিজ news/ID.html-এ যাবে।

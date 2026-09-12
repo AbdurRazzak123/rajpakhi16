@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="bn"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>সংবাদ | বাংলা সংবাদ</title>
+<meta name="robots" content="noindex,follow">
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f7f7f7;color:#222}
+.wrap{max-width:1050px;margin:30px auto;padding:0 15px}.box{background:#fff;padding:24px;border-radius:10px}
+img{max-width:100%;height:auto}.title{font-size:30px;line-height:1.5}.meta{color:#777}.content{font-size:18px;line-height:2}
+a{text-decoration:none;color:inherit}.home{display:inline-block;margin-bottom:18px;color:#0757a6}
+</style></head><body><main class="wrap"><div class="box" id="app"><p>খবর খোঁজা হচ্ছে...</p></div></main>
+<script>
+(function(){
+  const path=location.pathname;
+  const m=path.match(/\\/news\\/([^\\/]+)\\.html$/i);
+  const app=document.getElementById('app');
+  if(!m){app.innerHTML='<h1>404</h1><p>পেজটি পাওয়া যায়নি।</p>';return;}
+  const id=decodeURIComponent(m[1]);
+  const prefix=path.slice(0,path.toLowerCase().lastIndexOf('/news/'))+'/';
+  const dataUrl=prefix+'news-data.json';
+  function norm(v){return String(v??'').trim().replace(/\\.0+$/,'');}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  fetch(dataUrl,{cache:'default'}).then(r=>r.json()).then(d=>{
+    const rows=d&&d.table&&Array.isArray(d.table.rows)?d.table.rows:[];
+    let a=null;
+    for(const row of rows){
+      const c=row.c||[], val=i=>c[i]&&c[i].v!=null?c[i].v:'';
+      if(norm(val(0))===norm(id)){
+        a={id:val(0),category:val(1),title:val(2),text:val(3),image:val(4),date:val(5),image2:val(6),image3:val(7),video:val(8)};
+        break;
+      }
+    }
+    if(!a){app.innerHTML='<h1>সংবাদ পাওয়া যায়নি</h1><p>এই ID-এর সংবাদ বর্তমানে পাওয়া যাচ্ছে না।</p><a class="home" href="'+prefix+'home.html">← হোমে ফিরুন</a>';return;}
+    const paragraphs=String(a.text||'').split(/\\n\\s*\\n|\\n/).filter(Boolean).map(x=>'<p>'+esc(x)+'</p>').join('');
+    const image=a.image?'<p><img src="'+esc(a.image)+'" alt="'+esc(a.title)+'"></p>':'';
+    app.innerHTML='<a class="home" href="'+prefix+'home.html">← হোম</a><div class="meta">'+esc(a.category)+' • '+esc(a.date)+'</div><h1 class="title">'+esc(a.title)+'</h1>'+image+'<div class="content">'+(paragraphs||'<p>বিস্তারিত তথ্য পাওয়া যায়নি।</p>')+'</div>';
+    document.title=a.title+' | বাংলা সংবাদ';
+  }).catch(e=>{console.error(e);app.innerHTML='<h1>সংবাদ লোড করা যাচ্ছে না</h1><p>কিছুক্ষণ পরে আবার চেষ্টা করুন।</p>';});
+})();
+</script></body></html>

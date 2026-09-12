@@ -1,0 +1,28 @@
+নতুন GitHub Repository আপলোড — খুব গুরুত্বপূর্ণ
+
+এই প্যাকেজে শুধু root-এর HTML ফাইল নয়, নিচের folder-গুলোও অবশ্যই upload করতে হবে:
+
+1. news/              ← এর ভিতরে 30টি news/ID.html আছে
+2. assets/news/       ← news-এর local images
+3. news-data.json
+4. ads-data.json
+5. অন্যান্য root files
+
+GitHub Pages-এর repository root-এ structure এমন হবে:
+
+index.html
+home.html
+national.html
+...
+news-data.json
+ads-data.json
+news/
+  2.html
+  3.html
+  ...
+  31.html
+assets/
+  news/
+    ...
+
+শুধু root-এর HTML ফাইল upload করলে news/27.html-এর মতো URL 404 দেখাবে।

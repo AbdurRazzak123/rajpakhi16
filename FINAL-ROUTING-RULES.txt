@@ -1,0 +1,20 @@
+FINAL ROUTING
+
+HOME/CATEGORY PAGES:
+Latest News + 6 Cards -> details.html#ID (no ?id=)
+
+DETAILS PAGE:
+Selected news opens in left Main Container with image, date, category, headline and full details.
+A new middle-bottom Solo Ad is added below the full news.
+Total Details ads: top + middle-top + middle-bottom + bottom.
+
+DETAILS PAGE SIDEBAR + 6 CARDS:
+Each clicked news is routed by its category to that category page with clean hash ID:
+National -> national.html#ID
+Politics -> politics.html#ID
+Economy -> economy.html#ID
+Sports -> sports.html#ID
+Entertainment -> entertainment.html#ID
+International -> international.html#ID
+Technology -> technology.html#ID
+The category page reads the hash and opens that ID as the full main news.
