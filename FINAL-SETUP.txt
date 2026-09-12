@@ -8,7 +8,7 @@
 5) মোবাইলে Category ট্যাগ ছবির উপর নয়, ছবির নিচে থাকে।
 6) Professional scrolling ticker যোগ করা হয়েছে।
 7) Ad slots প্রস্তুত করা হয়েছে। এগুলো এখন placeholder; AdSense approval ও Google-এর দেওয়া ad code পাওয়ার পর placeholder-এর ভিতরে code বসাতে হবে।
-8) Logo: assets/logo.webp ফাইলটি নিজের লোগো দিয়ে replace করতে পারো, যদি তোমার বর্তমান template এই path ব্যবহার করে।
+8) Logo: assets/logo.png ফাইলটি নিজের লোগো দিয়ে replace করতে পারো, যদি তোমার বর্তমান template এই path ব্যবহার করে।
 
 নোট: AdSense publisher/client ID বানিয়ে অনুমান করে দেওয়া হয়নি। অনুমোদনের পরে Google-এর আসল code ব্যবহার করবে।
 

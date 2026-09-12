@@ -17,11 +17,11 @@
 <meta property="og:description" content="বাংলাদেশ ও বিশ্বের সর্বশেষ জাতীয়, রাজনীতি, আন্তর্জাতিক, খেলাধুলা, বিনোদন ও প্রযুক্তির খবর। তথ্য যাচাই করে দায়িত্বশীল সংবাদ প্রকাশ।">
 <meta property="og:type" content="website">
 <meta property="og:url" content="./">
-<meta property="og:image" content="./logo.webp">
+<meta property="og:image" content="./logo.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="বাংলা সংবাদ | সর্বশেষ খবর">
 <meta name="twitter:description" content="বাংলাদেশ ও বিশ্বের সর্বশেষ জাতীয়, রাজনীতি, আন্তর্জাতিক, খেলাধুলা, বিনোদন ও প্রযুক্তির খবর। তথ্য যাচাই করে দায়িত্বশীল সংবাদ প্রকাশ।">
-    <title>বাংলা সংবাদ | জাতীয় খবর</title>
+    <title>সংবাদ বিস্তারিত | বাংলা সংবাদ</title>
 
     <style>
         * {
@@ -438,7 +438,7 @@ main.container {
   #latest-news-container{max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 }
 
-/* ===== Custom Logo Slot (replace only logo.webp) ===== */
+/* ===== Custom Logo Slot (replace only logo.png) ===== */
 .logo{display:flex;align-items:center;min-width:0}
 .logo-image{width:min(92vw,420px);height:auto;max-height:140px;object-fit:contain;display:block;object-position:left center}
 .logo-fallback{display:none}
@@ -522,7 +522,7 @@ main.container {
   "@context":"https://schema.org",
   "@graph":[
     {"@type":"WebSite","name":"বাংলা সংবাদ","description":"বাংলাদেশ ও বিশ্বের সর্বশেষ সংবাদ","inLanguage":"bn","url":"./"},
-    {"@type":"Organization","name":"বাংলা সংবাদ","url":"./","logo":{"@type":"ImageObject","url":"./logo.webp"}}
+    {"@type":"Organization","name":"বাংলা সংবাদ","url":"./","logo":{"@type":"ImageObject","url":"./logo.png"}}
   ]
 }
 </script>
@@ -725,7 +725,7 @@ main.container {
 
 
 <style id="FINAL-TWO-FIXES-ONLY">
-/* FINAL FIX 1: logo uses root-level logo.webp for GitHub Pages reliability */
+/* FINAL FIX 1: logo uses root-level logo.png for GitHub Pages reliability */
 .site-header .logo-image, .brand-header .site-brand-logo { display:block!important; object-fit:contain!important; }
 /* FINAL FIX 2: index main image stays above category/date/headline; metadata never overlays image */
 .vertical-news-block { display:flex!important; flex-direction:column!important; position:relative!important; }
@@ -1297,6 +1297,14 @@ section.news-grid > article:nth-child(6) .news-image img {
 
 </style>
   <link rel="stylesheet" href="ads.css?v=20260907-ads-v26-sequential-final">
+<style>
+.detail-article .news-text-bottom h1{font-size:30px;line-height:1.4;margin:8px 0 16px;color:#111}
+.detail-body p{font-size:17px;line-height:1.85;color:#333;margin:0 0 14px;white-space:normal}
+.detail-extra-media img{display:block;width:100%;height:auto;max-height:450px;object-fit:contain;margin:16px 0;border-radius:6px}
+.video-wrap{margin:18px 0;padding:14px;background:#f3f4f6;border-radius:6px}.video-wrap a{font-weight:700;color:#c1121f}
+.detail-solo-ad{min-height:90px}
+@media(max-width:768px){.detail-article .news-text-bottom h1{font-size:24px}.detail-body p{font-size:16px}}
+</style>
 </head>
 
 <body>
@@ -1307,7 +1315,7 @@ section.news-grid > article:nth-child(6) .news-image img {
     <header class="site-header">
         <div class="header-inner">
             <div class="logo">
-                <img src="logo.webp" alt="বাংলা সংবাদ লোগো" class="logo-image">
+                <img src="logo.png" alt="বাংলা সংবাদ লোগো" class="logo-image">
                 <div class="logo-fallback">
                     <h1>বাংলা সংবাদ</h1>
                     <p>সর্বশেষ সংবাদ সবার আগে</p>
@@ -1341,6 +1349,8 @@ section.news-grid > article:nth-child(6) .news-image img {
 <main class="container">
     <div id="news-container"><div style="text-align:center; padding:40px; color:#888;">খবর লোড হচ্ছে...</div></div>
 
+    <div class="ad-slot in-article sheet-ad-slot middle detail-solo-ad" data-ad-position="middle-bottom" data-ad-slot="middle-bottom" aria-label="বিজ্ঞাপন"></div>
+
     <aside class="sidebar">
         <h2>সর্বশেষ সংবাদ</h2>
         <div class="latest-news-scroll" id="latest-news-container" aria-label="সর্বশেষ ৫টি সংবাদ">
@@ -1351,7 +1361,6 @@ section.news-grid > article:nth-child(6) .news-image img {
     <div class="ad-slot in-article sheet-ad-slot middle" data-ad-position="middle-top" data-ad-slot="middle-top" aria-label="বিজ্ঞাপন"></div>
 </main>
 
-<div class="ad-slot in-article sheet-ad-slot middle-bottom" data-ad-position="middle-bottom" data-ad-slot="middle-bottom" aria-label="বিজ্ঞাপন"></div>
 <h2 class="section-title">সর্বশেষ খবর</h2>
 <section class="news-grid category-six-grid" id="category-six-grid">
   <div style="text-align:center;padding:30px;color:#888;grid-column:1/-1;">খবর লোড হচ্ছে...</div>
@@ -1359,74 +1368,25 @@ section.news-grid > article:nth-child(6) .news-image img {
 
 <script>
 const liveDate=document.getElementById('live-date');
-if(liveDate){
-  const now=new Date();
-  liveDate.textContent=new Intl.DateTimeFormat('bn-BD',{timeZone:'Asia/Dhaka',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now);
-}
+if(liveDate){const now=new Date();liveDate.textContent=new Intl.DateTimeFormat('bn-BD',{timeZone:'Asia/Dhaka',weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now);}
 const DATA_URL='news-data.json';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm=s=>String(s??'').toLowerCase().trim();
 const normId=s=>{const x=String(s??'').trim();return /^\d+(?:\.0+)?$/.test(x)?String(parseInt(x,10)):x;};
-function parseSheet(text){
- const a=text.indexOf('{'),b=text.lastIndexOf('}')+1;
- const rows=JSON.parse(text.slice(a,b)).table.rows||[];
- return rows.map((r,i)=>{const c=r.c||[],v=n=>c[n]&&c[n].v!=null?String(c[n].v):'';return{id:normId(v(0)||(i+1)+''),category:v(1),title:v(2),summary:v(3),image:v(4),date:v(5),image2:v(6),image3:v(7),video:v(8)}}).filter(n=>n.title||n.summary);
-}
-function imageUrl(u){
-  const raw=String(url||'').trim();
-  if(!raw) return '';
-  const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);
-  if(m) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;
-  // The optimized package stores news images as WebP. Google Sheet data may still contain .jpeg/.jpg/.png.
-  if(/^assets\/news\//i.test(raw)) return raw.replace(/\.(?:jpe?g|png)$/i,'.webp');
-  try { return new URL(raw, document.baseURI).href; } catch(e) { return raw; }
-}
-function catKey(c){
- const x=norm(c);
- if(['জাতীয়','জাতীয়','national'].includes(x))return 'national';
- if(['রাজনীতি','politics'].includes(x))return 'politics';
- if(['অর্থনীতি','economy'].includes(x))return 'economy';
- if(['খেলাধুলা','sports','sport'].includes(x))return 'sports';
- if(['বিনোদন','entertainment'].includes(x))return 'entertainment';
- if(['আন্তর্জাতিক','international'].includes(x))return 'international';
- if(['প্রযুক্তি','technology','tech'].includes(x))return 'technology';
- return 'more';
-}
-function catLabel(c){
- return ({national:'জাতীয়',politics:'রাজনীতি',economy:'অর্থনীতি',sports:'খেলাধুলা',entertainment:'বিনোদন',international:'আন্তর্জাতিক',technology:'প্রযুক্তি',more:'আরও সংবাদ'})[catKey(c)]||String(c||'সংবাদ');
-}
-function categoryUrl(c,id){return catKey(c)+'.html#'+encodeURIComponent(normId(id));}
-function articleUrl(id){return 'details.html#'+encodeURIComponent(normId(id));}
-function card(n){
- const img=n.image?`<div class="news-image"><img loading="lazy" decoding="async" src="${esc(imageUrl(n.image))}" alt="${esc(n.title)}"></div>`:'<div class="news-image"></div>';
- return `<article class="news-card"><a href="${articleUrl(n.id)}">${img}<div class="news-card-content"><div class="category">${esc(catLabel(n.category))}</div><h3>${esc(n.title)}</h3></div></a></article>`;
-}
-function side(n){
- const img=n.image?`<img loading="lazy" decoding="async" src="${esc(imageUrl(n.image))}" alt="${esc(n.title)}">`:'';
- return `<article class="latest-item category-latest-item"><a href="${categoryUrl(n.category,n.id)}"><span class="category-latest-thumb">${img}</span><span class="category-latest-title">${esc(n.title)}</span></a></article>`;
-}
-function renderFull(n){
- if(!n)return '<div style="padding:40px;color:#888">সংবাদ পাওয়া যায়নি।</div>';
- const media=n.image?`<div class="news-image-top"><img fetchpriority="high" decoding="async" src="${esc(imageUrl(n.image))}" alt="${esc(n.title)}"></div>`:'';
- return `<article class="vertical-news-block detail-main-news">
-   ${media}<div class="news-text-bottom">
-   <span class="category-tag">${esc(catLabel(n.category))}</span>
-   <div class="breaking-news-date">${esc(n.date)}</div>
-   <h1 style="font-size:32px;line-height:1.35;margin:8px 0 14px">${esc(n.title)}</h1>
-   <div class="news-summary" style="font-size:18px;line-height:1.9;white-space:pre-line">${esc(n.summary)}</div>
-   </div></article>`;
-}
-fetch(DATA_URL+'?v=20260912',{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error('Data HTTP '+r.status);return r.text()})
-.then(t=>{
- const list=parseSheet(t), hash=normId((location.hash||'').replace(/^#/,''));
- const selected=list.find(n=>n.id===hash)||list[0];
- const c=document.getElementById('news-container'); if(c)c.innerHTML=renderFull(selected);
- const latest=list.slice().reverse().slice(0,5);
- const lc=document.getElementById('latest-news-container'); if(lc)lc.innerHTML=latest.map(side).join('');
- const grid=document.getElementById('category-six-grid'); if(grid)grid.innerHTML=list.slice().reverse().slice(0,6).map(card).join('');
- const ticker=document.querySelector('.breaking .ticker-track'); if(ticker)ticker.textContent=selected?selected.title:'সর্বশেষ সংবাদ';
-})
-.catch(e=>{console.error(e);const c=document.getElementById('news-container');if(c)c.innerHTML='<div style="padding:40px;color:#888">সংবাদ লোড করা যাচ্ছে না।</div>';});
+function parseSheet(text){const a=text.indexOf('{'),b=text.lastIndexOf('}')+1;const rows=JSON.parse(text.slice(a,b)).table.rows||[];return rows.map((r,i)=>{const c=r.c||[],v=n=>c[n]&&c[n].v!=null?String(c[n].v):'';return{id:normId(v(0)||(i+1)+''),category:v(1),title:v(2),summary:v(3),image:v(4),date:v(5),video:v(6),image2:v(7),image3:v(8)}}).filter(n=>n.title||n.summary);}
+function load(){return fetch(DATA_URL,{cache:'default'}).then(r=>{if(!r.ok)throw Error('Data HTTP '+r.status);return r.text();}).then(parseSheet);}
+function imageUrl(url){const raw=String(url||'').trim();if(!raw)return '';const m=raw.match(/drive\.google\.com\/(?:file\/d\/|open\?(?:[^#]*&)?id=|uc\?(?:[^#]*&)?id=|thumbnail\?(?:[^#]*&)?id=)([A-Za-z0-9_-]+)/i);if(m)return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1000`;if(/^https?:\/\//i.test(raw))return raw;try{return new URL(raw.replace(/^\.\//,'').replace(/^\/+/,''),document.baseURI).href}catch(e){return raw;}}
+function fallback(img){if(img.dataset.fallback)return;img.dataset.fallback='1';img.style.display='none';}
+const CAT={national:['জাতীয়','জাতীয়','national'],politics:['রাজনীতি','politics'],international:['আন্তর্জাতিক','international'],economy:['অর্থনীতি','economy'],sports:['খেলাধুলা','খেলা','ক্রীড়া','ক্রীড়া','sports'],entertainment:['বিনোদন','entertainment'],technology:['প্রযুক্তি','technology','tech']};
+const CAT_PAGE={national:'national.html',politics:'politics.html',international:'international.html',economy:'economy.html',sports:'sports.html',entertainment:'entertainment.html',technology:'technology.html'};
+const CAT_LABEL={national:'জাতীয়',politics:'রাজনীতি',international:'আন্তর্জাতিক',economy:'অর্থনীতি',sports:'খেলাধুলা',entertainment:'বিনোদন',technology:'প্রযুক্তি'};
+function categoryKey(c){const x=norm(c);for(const k of Object.keys(CAT)){if(CAT[k].some(v=>norm(v)===x))return k;}return '';}
+function categoryUrl(n){const k=categoryKey(n.category);return (CAT_PAGE[k]||'home.html')+'#'+encodeURIComponent(normId(n.id));}
+function detailBody(n){const txt=String(n.summary||'').trim();if(!txt)return '<p>এই সংবাদের বিস্তারিত তথ্য পাওয়া যায়নি।</p>';return txt.split(/\n\s*\n|\n/).filter(Boolean).map(x=>`<p>${esc(x.trim())}</p>`).join('');}
+function mainNews(n){if(!n)return '<div class="vertical-news-block"><div class="news-text-bottom"><h3>সংবাদ পাওয়া যায়নি।</h3></div></div>';const img=n.image?`<div class="news-image-top"><img loading="eager" decoding="async" fetchpriority="high" src="${esc(imageUrl(n.image))}" alt="${esc(n.title)}" onerror="fallback(this)"></div>`:'';const k=categoryKey(n.category);const label=CAT_LABEL[k]||n.category||'সংবাদ';let media='';if(n.image2)media+=`<img loading="lazy" decoding="async" src="${esc(imageUrl(n.image2))}" alt="${esc(n.title)}" onerror="fallback(this)">`;if(n.image3)media+=`<img loading="lazy" decoding="async" src="${esc(imageUrl(n.image3))}" alt="${esc(n.title)}" onerror="fallback(this)">`;if(n.video&&/^https?:\/\//i.test(n.video))media+=`<div class="video-wrap"><a href="${esc(n.video)}" target="_blank" rel="noopener">ভিডিও দেখুন</a></div>`;return `<article class="vertical-news-block detail-article">${img}<div class="news-text-bottom"><span class="category-tag">${esc(label)}</span><div class="breaking-news-date">${esc(n.date)}</div><h1>${esc(n.title)}</h1><div class="detail-body">${detailBody(n)}</div>${media?`<div class="detail-extra-media">${media}</div>`:''}</div></article>`;}
+function side(n){const k=categoryKey(n.category);const img=n.image?`<img loading="lazy" decoding="async" src="${esc(imageUrl(n.image))}" alt="${esc(n.title)}" onerror="fallback(this)">`:'';return `<article class="latest-item category-latest-item"><a href="${categoryUrl(n)}"><span class="category-latest-thumb">${img}</span><span class="category-latest-title">${esc(n.title)}</span></a></article>`;}
+function card(n){const k=categoryKey(n.category),label=CAT_LABEL[k]||n.category||'সংবাদ';const img=n.image?`<div class="news-image"><img loading="lazy" decoding="async" src="${esc(imageUrl(n.image))}" alt="${esc(n.title)}" onerror="fallback(this)"></div>`:`<div class="news-image"></div>`;return `<article class="news-card"><a href="${categoryUrl(n)}">${img}<div class="news-card-content"><div class="category">${esc(label)}</div><h3>${esc(n.title)}</h3></div></a></article>`;}
+load().then(list=>{const ordered=[...list].reverse();const id=normId(decodeURIComponent((location.hash||'').replace(/^#/,'')));const selected=ordered.find(n=>normId(n.id)===id)||ordered[0];const c=document.getElementById('news-container');if(c)c.innerHTML=mainNews(selected);const t=document.querySelector('.ticker-track');if(t)t.textContent=selected?selected.title:'সর্বশেষ সংবাদ';const others=ordered.filter(n=>!selected||normId(n.id)!==normId(selected.id));const lc=document.getElementById('latest-news-container');if(lc)lc.innerHTML=others.slice(0,5).map(side).join('');const grid=document.getElementById('category-six-grid');if(grid)grid.innerHTML=others.slice(0,6).map(card).join('');}).catch(e=>{console.error(e);document.getElementById('news-container').innerHTML='<div style="padding:40px;text-align:center">খবর লোড করা যাচ্ছে না।</div>';});
 </script>
 
 <style id="category-index-dynamic-six-fix">
