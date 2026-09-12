@@ -1,3 +1,4 @@
+# NEWS PAGE MODEL: news/<ID>.html is the permanent article URL.
 import json, re, urllib.request, urllib.parse, hashlib, mimetypes
 from datetime import datetime, timedelta
 from pathlib import Path
